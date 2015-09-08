@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.JobMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.Job">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="jobSummary" property="jobsummary" jdbcType="VARCHAR"/>
+        <result column="companyName" property="companyName" jdbcType="VARCHAR"/>
+        <result column="jobType" property="jobtype" jdbcType="VARCHAR"/>
+        <result column="require" property="require" jdbcType="VARCHAR"/>
+        <result column="jobExperience" property="jobexperience" jdbcType="VARCHAR"/>
+        <result column="education" property="education" jdbcType="VARCHAR"/>
+        <result column="companyId" property="companyId" jdbcType="INTEGER"/>
+        <!--一对多关联查询，配置 没有N+1问题-->
+        <!--   <collection property="userList" ofType="com.wming.bean.User">
+               <id column="userId" property="id"/>
+               <result column="username" property="username"/>
+               <result column="email" property="email"/>
+               <result column="age" property="age"/>
+               <result column="sex" property="sex"/>
+           </collection>-->
+        <collection property="companyList" ofType="com.wming.bean.CompanyUser">
+            <id column="companyUserId" property="id"/>
+            <result column="company" property="companyName"/>
+        </collection>
+    </resultMap>
+    <!--一对多关联 -->
+    <resultMap id="ResultMapWithBLOBs" type="com.wming.bean.Job" extends="BaseResultMap">
+        <result column="require" property="require" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <insert id="addJob" parameterType="com.wming.bean.Job">
+        INSERT INTO job (companyName, jobSummary, `require`, jobType, jobExperience, education, companyId)
+        VALUES (#{companyName}, #{jobsummary}, #{require}, #{jobtype}, #{jobexperience}, #{education}, #{companyId})
+    </insert>
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM job
+        WHERE id = #{id}
+    </delete>
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        SELECT *
+        FROM job
+        WHERE companyId = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            j.*,
+            c.companyName
+        FROM job j, companyuser c
+        WHERE c.id = j.companyId
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.CompanyprojectMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.CompanyProject">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+
+        <collection property="projects" ofType="com.wming.bean.Project">
+            <id column="pId" property="id"/>
+            <result column="projectname" property="projectname"/>
+            <result column="projecttype" property="projecttype"/>
+            <result column="projectfunds" property="projectfunds"/>
+            <result column="projectcompany" property="projectcompany"/>
+        </collection>
+
+        <collection property="companyUsers" ofType="com.wming.bean.CompanyUser">
+            <id column="cId" property="id"/>
+            <result column="username" property="username"/>
+        </collection>
+    </resultMap>
+    <insert id="add">
+        INSERT INTO companyproject ( pid, cid) VALUES (#{0}, #{1})
+    </insert>
+
+
+    <select id="selectById" resultType="java.util.List" resultMap="BaseResultMap">
+        SELECT j.projectCompany,j.projectFunds,j.projectName,j.projectType
+        FROM companyproject c, companyuser cp, project j
+        WHERE j.id = c.pid AND cp.id = c.cid AND cp.id = #{id}
+    </select>
+
+</mapper>

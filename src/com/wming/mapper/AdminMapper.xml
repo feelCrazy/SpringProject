@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.AdminMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.Admin">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="updateById" parameterType="com.wming.bean.Admin">
+        UPDATE admin
+        SET name = #{name}, password = #{password}, phone = ${phone}, address = #{address}
+        WHERE id = #{id}
+    </update>
+    <select id="selectLogin" resultType="com.wming.bean.Admin" parameterType="string">
+        SELECT *
+        FROM admin
+        WHERE name = #{0} AND password = #{1}
+    </select>
+
+    <select id="selectById" resultType="com.wming.bean.Admin" parameterType="int">
+        SELECT *
+        FROM admin
+        WHERE id = #{id}
+    </select>
+
+</mapper>

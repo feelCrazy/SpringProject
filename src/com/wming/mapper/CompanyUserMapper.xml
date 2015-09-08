@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.CompanyUserMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.CompanyUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="TIMESTAMP"/>
+        <result column="companyName" property="companyName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="com.wming.bean.CompanyUser">
+        INSERT INTO companyuser (username, email, password, phone, date)
+        VALUES (#{username}, #{email}, #{password}, #{phone}, #{date})
+    </insert>
+
+    <update id="update" parameterType="com.wming.bean.CompanyUser">
+        UPDATE companyuser
+        SET username = #{username}, phone = #{phone}, email = #{email}, companyName = #{companyName}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM companyuser
+        WHERE id = #{id}
+    </delete>
+
+    <select id="selectLogin" resultType="com.wming.bean.CompanyUser" parameterType="string">
+        SELECT *
+        FROM companyuser
+        WHERE email = #{0} AND password = #{1}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM companyuser
+    </select>
+
+
+</mapper>

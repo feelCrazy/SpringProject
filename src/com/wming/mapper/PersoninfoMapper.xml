@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.PersoninfoMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.Personinfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="userId" property="userid" jdbcType="INTEGER"/>
+        <result column="jobId" property="jobid" jdbcType="INTEGER"/>
+        <result column="companyid" property="companyid" jdbcType="INTEGER"/>
+
+        <collection property="userList" ofType="com.wming.bean.User">
+            <id column="userid" property="id"/>
+            <result column="username" property="username"/>
+            <result column="sex" property="sex"/>
+            <result column="age" property="age"/>
+            <result column="phone" property="phone"/>
+            <result column="personinfo" property="personinfo"/>
+            <result column="email" property="email"/>
+        </collection>
+
+        <collection property="jobList" ofType="com.wming.bean.Job">
+            <id column="jobid" property="id"/>
+            <result column="companyname" property="companyName"/>
+            <result column="jobexperience" property="jobexperience"/>
+            <result column="require" property="require"/>
+            <result column="jobtype" property="jobtype"/>
+            <result column="education" property="education"/>
+        </collection>
+    </resultMap>
+    <insert id="add" parameterType="int">
+        INSERT INTO personinfo (userId, jobId, companyId) VALUES (#{0}, #{1}, #{2})
+    </insert>
+    <delete id="deleteById">
+        DELETE FROM personinfo
+        WHERE jobId = #{id}
+    </delete>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="int">
+        SELECT
+            u.username,
+            u.age,
+            u.email,
+            j.jobType,
+            j.`require`,
+            j.jobExperience,
+            j.companyName,
+            j.education,
+            j.jobExperience
+        FROM personinfo p, job j, user u
+        WHERE u.id = p.userId AND j.id = p.jobId AND p.companyId = #{id}
+    </select>
+
+    <select id="selectByUserId"  resultMap="BaseResultMap">
+        SELECT
+            u.username,
+            u.email,
+            j.id,
+            j.jobType,
+            j.`require`,
+            j.jobExperience,
+            j.companyName,
+            j.education,
+            j.jobExperience
+        FROM personinfo p, job j, user u
+        WHERE u.id = p.userId AND j.id = p.jobId AND u.id = #{id}
+    </select>
+
+
+</mapper>

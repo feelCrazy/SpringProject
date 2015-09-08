@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wming.mapper.ProjectMapper">
+    <resultMap id="BaseResultMap" type="com.wming.bean.Project">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="projectName" property="projectname" jdbcType="VARCHAR"/>
+        <result column="projectType" property="projecttype" jdbcType="VARCHAR"/>
+        <result column="projectCompany" property="projectcompany" jdbcType="VARCHAR"/>
+        <result column="projectInfo" property="projectinfo" jdbcType="VARCHAR"/>
+        <result column="projectFunds" property="projectfunds" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="add">
+        INSERT INTO project (projectName, projectType, projectCompany, projectInfo, projectFunds)
+        VALUES (#{projectname}, #{projecttype}, #{projectcompany}, #{projectinfo}, #{projectfunds})
+    </insert>
+
+    <update id="updateById">
+        UPDATE project
+        SET projectName = #{projectname}, projecttype = #{projecttype}, projectcompany = #{projectcompany},
+            projectinfo = #{projectinfo}, projectfunds = #{projectfunds}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM project
+        WHERE id = #{id}
+    </delete>
+
+
+    <select id="selectAll" resultType="java.util.List" resultMap="BaseResultMap">
+        SELECT *
+        FROM project
+    </select>
+
+    <select id="selectById" resultType="com.wming.bean.Project">
+        SELECT *
+        FROM project
+        WHERE id = #{id}
+    </select>
+
+</mapper>
