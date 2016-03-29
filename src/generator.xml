@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
+
     <!-- Class Driver Path -->
     <classPathEntry location="C:\My Data\Program File\JDBC Lib\mysql-connector-java-5.1.32-bin.jar"/>
 
